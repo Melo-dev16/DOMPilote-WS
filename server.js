@@ -1,7 +1,7 @@
 import {WebSocketServer} from 'ws';
 
 const wss = new WebSocketServer({port:8080});
-
+console.log('Listening on 8080');
 wss.on('connection', client => {
     client.on('message', (message,isBinary) =>{
         let mess = JSON.stringify(message);
