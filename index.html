@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="messages"></div>
+
+    <script>
+        function showMessages(text,isMine = false){
+            let classe = 'theirs';
+
+            if(isMine){
+                classe = 'mine';
+            }
+
+            document.getElementById('messages').innerHTML += "\
+            <div class='message-row "+classe+"><div class='bubble'>"+text+"</div></div>\
+            ";
+        }
+        const ws = new WebSocket('ws://localhost:3000');
+
+        ws.addEventListener('message', ev => {
+            ev.data.text().then(text => {
+                showMessages(text)
+
+                let data = JSON.parse(text);
+                let cons = Object.keys(data)[0];
+
+                if(cons == "A"){
+                    ws.send(JSON.stringify({'A':data.A}));
+                }
+                else{
+                    ws.send(JSON.stringify({'B':data.B}));
+                }
+            });
+        })
+    </script>
+</body>
+</html>
