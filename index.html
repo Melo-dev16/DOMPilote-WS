@@ -21,7 +21,7 @@
             <div class='message-row "+classe+"><div class='bubble'>"+text+"</div></div>\
             ";
         }
-        const ws = new WebSocket('ws://dompilote.herokuapp.com:3000');
+        const ws = new WebSocket('wss://dompilote.herokuapp.com');
 
         ws.onopen = function () {
             var t = setInterval(function(){
