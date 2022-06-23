@@ -4,6 +4,11 @@ const wss = new WebSocketServer({port:3000});
 
 wss.on('connection', client => {
     client.on('message', (message,isBinary) =>{
-        [...wss.clients].filter(c => c !== client).forEach(c => c.send(isBinary ? message.toString() : message));
+        let mess = JSON.stringify(message);
+
+        if(Object.keys(mess)[0] != "type"){
+            [...wss.clients].filter(c => c !== client).forEach(c => c.send(isBinary ? message.toString() : message));
+        }
+        
     })
 })

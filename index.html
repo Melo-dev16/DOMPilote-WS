@@ -21,7 +21,17 @@
             <div class='message-row "+classe+"><div class='bubble'>"+text+"</div></div>\
             ";
         }
-        const ws = new WebSocket('ws://localhost:3000');
+        const ws = new WebSocket('wss://dompilote.herokuapp.com:3000');
+
+        ws.onopen = function () {
+            var t = setInterval(function(){
+                if (ws.readyState != 1) {
+                    clearInterval(t);
+                    return;
+                }
+                ws.send('{type:"ping"}');
+            }, 55000);
+        };
 
         ws.addEventListener('message', ev => {
             ev.data.text().then(text => {
